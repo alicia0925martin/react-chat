@@ -10,17 +10,20 @@ import Navbar from './components/Navbar';
 import useAuth from './hooks/useAuth';
 import { Loader } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 
 function App() {
   const { user, isLoading } = useAuth();
   const location = useLocation();
+
+  const {theme} = useSelector((store)=>store.config);
 
   if (isLoading) return <div className='flex items-center justify-center h-screen'>
     <Loader className='size-10 animate-spin'/>
   </div>;
 
   return (
-    <div className="">
+    <div className="" data-theme={theme}>
       <Navbar />
       <Routes>
         {/* Public Routes */}

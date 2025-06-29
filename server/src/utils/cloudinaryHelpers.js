@@ -6,6 +6,9 @@ exports.uploadFileToCloudinary = async(file , folder , quality , height)=>{
     if(quality){
         options.quality = quality;
     }
+    else{
+        options.quality = "auto"; 
+    }
     if(height){
         options.height = height;
     }

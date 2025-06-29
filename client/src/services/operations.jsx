@@ -3,6 +3,8 @@ import { axiosInstance } from "./apiConnector";
 import { removeUser, setLoading, setUser } from "../Redux/Reducers/slices/authSlice";
 import validator from "validator";
 
+
+
 const validateForm = (formData)=>{
         toast.dismiss();
 
@@ -123,3 +125,52 @@ export const logout = async(dispatch)=>{
 }
 
 
+export const updateProfileData = async(dispatch , formData , user , file)=>{
+        try{
+            dispatch(setLoading(true));
+            
+            if(formData.contactNumber && formData.contactNumber.toString().length !== 10){
+                toast.error("Contact number should be exactly 10 digits");
+                dispatch(setLoading(false));
+                return;
+            }
+
+            
+
+            // prepare a new form data
+            const form = new FormData();
+
+            form.append("contactNumber" , formData.contactNumber);
+            form.append("displayName" , formData.displayName);
+
+            
+            // Check and append profile pic file if present
+            if (file ) {
+            form.append("profilePic", file);
+            }
+
+            const res = await axiosInstance.post("/user/update-profile" , form , 
+            {
+                headers: {
+                'Content-Type': 'multipart/form-data'
+                }
+            })
+
+            console.log(res);
+
+            dispatch(setUser(res?.data?.user));
+
+            
+
+            toast.success("profile updated successfully!")
+            dispatch(setLoading(false));         
+        }
+        catch(err){
+            toast.error("update profile failed");
+            console.log(err);
+            dispatch(setLoading(false))
+        }
+        finally{
+            dispatch(setLoading(false));
+        }
+}

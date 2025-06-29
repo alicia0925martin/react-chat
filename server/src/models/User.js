@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
     displayName: {
         type: String,
         trim: true,
+        maxLength: 30
     },
     email: {
         type: String, 
@@ -31,7 +32,8 @@ const userSchema = new mongoose.Schema({
         minLength: 8
     },
     contactNumber: {
-        type: Number, 
+        type: String,
+        match: /^[0-9]{10}$/
     }, 
     profilePic: {
         type: String, 
