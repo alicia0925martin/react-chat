@@ -1,12 +1,56 @@
-# React + Vite
+# Real-Time Chat App - Frontend (Client)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend for the **Real-Time Chat Application**, built with **React 19**, **Vite**, **Tailwind CSS**, and other modern tools for speed and scalability.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+- **React 19** – Frontend UI library
+- **Vite** – Lightning-fast frontend build tool
+- **Tailwind CSS** – Utility-first CSS framework
+- **DaisyUI** – Tailwind-based component library
+- **React Router DOM** – Routing support for React SPA
+- **React Hot Toast** – Lightweight toast notifications
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## ✅ Setup Progress So Far
+
+### 📦 Initialization
+- Initialized the React app using **Vite**:  
+  ```bash
+  npm create vite@latest client -- --template react
+
+
+
+# Phase 1 : Initialization: 
+- Created the react app using vite 
+- Installed tailwind css 
+- Installed daisy ui
+- Installed required dependencies 
+    - react-router
+    - react-redux 
+    - react-hot-toast
+- Created Pages and components: 
+    - Pages(dummy)
+        - Signup
+        - Login
+        - HomePage
+        - Profile 
+        - Settings
+- Setting up Routing for each Each Page in (app.jsx)
+
+
+# Phase 2 : Authentication (Checking User is logged in or not): 
+- Setting up Redux store to store auth data: 
+    - Created redux store
+    - Created auth slice (reducer)
+        - created setUser , removeUser , setLoading actions
+    
+- Created custom hook
+    - useCheckAuth (makes the checkAuth api call to check if user is authentication or not)
+    - navigates to login page
+
+- Protected Routes (based on checkAuth)
+    - **<Route element={user? <HomePage/> : <Navigate to="/login"/>}>**

@@ -1,6 +1,9 @@
 const express = require("express")
 
 
+// importing cors: 
+const cors = require("cors");
+
 const cookieParser = require('cookie-parser');
 const dbConnect = require("./config/database");
 const fileUpload = require("express-fileupload");
@@ -8,6 +11,7 @@ const cloudinaryConnect = require("./config/cloudinary");
 
 
 require("dotenv").config();
+
 
 // importing PORT 
 const PORT = process.env.PORT || 4000;
@@ -23,7 +27,10 @@ app.use(fileUpload({
 }));
 
 // configuring cors: 
+app.use(cors({
+    origin: "http://localhost:5173", credentials: true,
 
+}))
 
 
 // express.json() middleware: 

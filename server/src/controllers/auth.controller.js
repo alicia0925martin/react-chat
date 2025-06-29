@@ -153,3 +153,50 @@ exports.logout = async(req , res)=>{
         })
     }
 }
+
+exports.checkUsername = async(req , res)=>{
+    try{
+        // fetch the username from req.body: 
+        const {username} = req.body; 
+
+        
+        // check the regex here: 
+        if(!/^(?!.*\.\.)(?!.*\.$)[a-zA-Z0-9._]{1,30}$/.test(username)){
+            return res.status(401).json({
+                success: false, 
+                message: "username not valid"
+            })
+        }
+
+        if(!username?.trim()){
+            return res.status(404).json({
+                success: false, 
+                message: "username not valid"
+            })
+        }
+
+        const existingUsername = await User.findOne({username}).select("username");
+
+        if(existingUsername){
+            return res.status(404).json({
+                success: false, 
+                message: "username already exists."
+            })
+        }
+
+        return res.status(200).json({
+            success: true, 
+            message: "username is valid."
+        })
+
+    }
+    catch(err){
+        console.log(err);
+        console.error(err); 
+        return res.status(500).json({
+            success: false, 
+            message: "Internal Server Error", 
+            error: err.message
+        })
+    }
+}
