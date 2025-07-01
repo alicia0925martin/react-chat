@@ -93,7 +93,7 @@ exports.sendMessage = async(req, res)=>{
     try{
         // fetch the data; 
         const {text} = req.body; 
-        const  chatFile = req.files.file; 
+        const  chatFile = req.files?.file; 
 
         // fetch the recieverId: 
         const recieverId = req.params.id;
@@ -143,6 +143,9 @@ exports.sendMessage = async(req, res)=>{
             text, 
             file: formattedFile
         });
+
+
+        // todo: real time functionality will be used here: 
 
 
         return res.status(200).json({

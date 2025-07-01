@@ -15,7 +15,6 @@ const messageSchema = new mongoose.Schema({
     text: {
         type: String, 
         trim: true, 
-        required: true, 
     },
     file: {
     url: { type: String, trim: true },      // Cloudinary or S3 URL

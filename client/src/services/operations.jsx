@@ -2,7 +2,16 @@ import toast from "react-hot-toast";
 import { axiosInstance } from "./apiConnector";
 import { removeUser, setLoading, setUser } from "../Redux/Reducers/slices/authSlice";
 import validator from "validator";
+import { setIsMessagesLoading, setIsSendingMessage, setIsUsersLoading, setMessages, setUsers } from "../Redux/Reducers/slices/chatSlice";
 
+
+export const formatMessageTime =(date) =>{
+  return new Date(date).toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}
 
 
 const validateForm = (formData)=>{
@@ -172,5 +181,104 @@ export const updateProfileData = async(dispatch , formData , user , file)=>{
         }
         finally{
             dispatch(setLoading(false));
+        }
+}
+
+
+
+export const getUsers = async(dispatch)=>{
+    try{
+        dispatch(setIsUsersLoading(true));
+
+        const res = await axiosInstance.get("message/users");
+
+        console.log(res);
+        
+        dispatch(setUsers(res?.data?.data));
+
+        dispatch(setIsUsersLoading(false));
+        
+    }
+    catch(err){
+            toast.error("fetching users failed");
+            console.log(err);
+            dispatch(setIsUsersLoading(false))
+        }
+    finally{
+            dispatch(setIsUsersLoading(false));
+        }
+}
+
+export const getMessages = async(dispatch , userId)=>{
+    try{
+        dispatch(setIsMessagesLoading(true));
+
+        console.log(userId);
+
+        if(!userId){
+            toast.error("please select a chat")
+            dispatch(setIsMessagesLoading(false));
+            return;
+        }
+
+        const res = await axiosInstance.get("message/getMessages/" + userId);
+
+        console.log(res);
+        
+        dispatch(setMessages(res?.data?.data));
+
+        dispatch(setIsMessagesLoading(false));
+        
+    }
+    catch(err){
+            toast.error("fetching users failed");
+            console.log(err);
+            dispatch(setIsUsersLoading(false))
+        }
+    finally{
+            dispatch(setIsUsersLoading(false));
+        }
+}
+
+export const handleSendMessage = async(dispatch , {text , file , toId})=>{
+    try{
+            dispatch(setIsSendingMessage(true));
+            
+            
+
+            // prepare a new form data
+            const form = new FormData();
+
+            form.append("text" , text);
+
+            
+            // Check and append profile pic file if present
+            if (file ) {
+            form.append("file", file);
+            }
+
+            const res = await axiosInstance.post("message/sendMessage/"+toId , form , 
+            {
+                headers: {
+                'Content-Type': 'multipart/form-data'
+                }
+            })
+
+            console.log(res);
+
+            getMessages(dispatch , toId);
+
+            
+
+            toast.success("message sent successfully!")
+            dispatch(setIsSendingMessage(false));         
+        }
+    catch(err){
+            toast.error("could not send message");
+            console.log(err);
+            dispatch(setIsSendingMessage(false))
+        }
+    finally{
+            dispatch(setIsSendingMessage(false))
         }
 }

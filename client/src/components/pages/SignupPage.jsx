@@ -35,36 +35,20 @@ const SignupPage = () => {
     const isValidUsername = useCheckUserName(formData.username);
 
     
-    const validateForm = (formData)=>{
-        toast.dismiss();
-
-        if(!formData.username.trim()) return toast.error("username is required");
-        if(!formData.email.trim()) return toast.error("email is required!");
-        if(!formData.password.trim()) return toast.error("password is required!")
-        if(!formData.confirmPassword.trim()) return toast.error("confirm password is required!")
-        if(formData.confirmPassword.trim() !== formData.password.trim()) return toast.error("passwords do not match!")
-        if(!validator.isEmail(formData.email.trim()))
-            return toast.error("email is not valid!")
-        if(!validator.isStrongPassword(formData.password.trim()))
-            return toast.error("Password is not strong enough.")
-        if(!/^(?!.*\.\.)(?!.*\.$)[a-zA-Z0-9._]{1,30}$/.test(formData.username))
-            return toast.error("username is not valid.")
-        
-            
-        return true;
-
-    }
-
-    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        // signup logic is in operations file
         signup(dispatch , formData);
-        
+
 };
-if (isLoading) return <div className='flex items-center justify-center h-screen'>
+
+// if loading showing loader: 
+    if (isLoading) return 
+    <div className='flex items-center justify-center h-screen'>
     <Loader className='size-10 animate-spin'/>
-  </div>;
+    </div>;
+
   return (
      <div className="min-h-screen grid lg:grid-cols-2">
       {/* left side */}

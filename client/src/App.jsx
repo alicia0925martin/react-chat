@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import HomePage from './components/pages/HomePage';
@@ -11,6 +11,7 @@ import useAuth from './hooks/useAuth';
 import { Loader } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import { THEMES } from './utils/constants';
 
 function App() {
   const { user, isLoading } = useAuth();

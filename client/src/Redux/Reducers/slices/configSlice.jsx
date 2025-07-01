@@ -6,7 +6,10 @@ const configSlice = createSlice({
         theme: localStorage.getItem("chatty-theme")? localStorage.getItem("chatty-theme") : "dark"
     }, 
     reducers: {
-        setTheme: (state , action) => action.payload,
+        setTheme: (state , action) => {
+            localStorage.setItem("chatty-theme" , action.payload);
+            state.theme = action.payload
+        }
     }
 })
 
