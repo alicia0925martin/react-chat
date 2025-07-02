@@ -277,16 +277,18 @@ exports.verifyEmailOtp = async (req, res) => {
       throw new Error("Otp should be of 6 digits");
     }
 
-    const recentOtp = await OTP.findOne({ email }).sort({ createdAt: -1 });
+    // Fix: use find() with sort + limit
+    const recentOtp = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
+    const otpDoc = recentOtp[0];
 
-    if (!recentOtp || !recentOtp.otp) {
+    if (!otpDoc || !otpDoc.otp) {
       return res.status(404).json({
         success: false,
         message: "OTP not found or expired. Please request a new OTP.",
       });
     }
 
-    const storedOtp = recentOtp.otp.toString(); // ✅ fixed here
+    const storedOtp = otpDoc.otp.toString();
     const enteredOtp = otp.toString();
 
     if (storedOtp !== enteredOtp) {
@@ -298,7 +300,7 @@ exports.verifyEmailOtp = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "otp verified successfully!",
+      message: "OTP verified successfully!",
     });
   } catch (err) {
     console.error(err);
@@ -309,3 +311,4 @@ exports.verifyEmailOtp = async (req, res) => {
     });
   }
 };
+
