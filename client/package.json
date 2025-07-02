@@ -13,7 +13,6 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/vite": "^4.1.11",
     "axios": "^1.10.0",
-    "chat-app": "file:..",
     "daisyui": "^5.0.43",
     "lucide-react": "^0.525.0",
     "react": "^19.1.0",
