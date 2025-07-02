@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "chat-app": "file:..",
     "cloudinary": "^2.7.0",
     "concurrently": "^9.2.0",
     "cookie-parser": "^1.4.7",

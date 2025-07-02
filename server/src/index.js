@@ -8,6 +8,9 @@ const cookieParser = require('cookie-parser');
 const dbConnect = require("./config/database");
 const fileUpload = require("express-fileupload");
 const cloudinaryConnect = require("./config/cloudinary");
+const path = require("path")
+
+
 
 const { app, io, server } = require("./config/socket");
 
@@ -23,14 +26,14 @@ const PORT = process.env.PORT || 4000;
 
 // file upload middleware: 
 app.use(fileUpload({
-  useTempFiles: true,
-  tempFileDir: "/tmp/"
+    useTempFiles: true,
+    tempFileDir: "/tmp/"
 }));
 
 // configuring cors: 
 app.use(cors({
     origin: "http://localhost:5173", credentials: true,
-
+    
 }))
 
 
@@ -61,8 +64,16 @@ app.get("/" , (req , res)=>{
 })
 
 
+const __dirname = path.resolve();
+
+if(process.env.NODE_ENV === "production"){
+    app.use(express.static(path.join(__dirname , "../client/dist")));
 
 
+    app.get("*" , (req, res)=>{
+        res.sendFile(path.join(__dirname , "../client" , "dist" , "index.html"));
+    })
+}
 
 
 dbConnect();
