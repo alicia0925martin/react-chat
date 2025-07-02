@@ -38,3 +38,5 @@ export const PREVIEW_MESSAGES = [
     {id: 2 , content: "I'm doing great! Just creating chatty.", isSent: true},
 ]
 
+
+export const BACKEND_URL = 'http://localhost:3000'

@@ -14,7 +14,7 @@ import { login, signup } from '../../services/operations';
 const LoginPage = () => {
    const [showPassword , setShowPassword] = useState(false);
       
-      const {isLoading} = useSelector((store)=>store.auth);
+      const {isLoading , socket} = useSelector((store)=>store.auth);
   
      
       // dispatch: 
@@ -24,18 +24,19 @@ const LoginPage = () => {
           usernameOrEmail: "", 
           password: "",
       })
+
       
   
       const handleSubmit = async (e) => {
           e.preventDefault();
           // signup logic is in operations file
-          login(dispatch , formData);
+          login(dispatch ,socket, formData);
   
   };
   
   // if loading showing loader: 
       if (isLoading) return 
-      <div className='flex items-center justify-center h-screen'>
+      <div className='flex items-center justify-center h-screen bg-transparent'>
       <Loader className='size-10 animate-spin'/>
       </div>;
   

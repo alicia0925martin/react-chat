@@ -1,0 +1,15 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "description": "- [Project Overview](#project-overview)\r - [Folder and File Overview](#folder-and-file-overview)\r - [Authentication Flow](#authentication-flow)\r - [User Management](#user-management)\r - [Messaging System](#messaging-system)\r - [Cloudinary Integration](#cloudinary-integration)\r - [Helper Functions](#helper-functions)\r - [Error Handling](#error-handling)\r - [Environment Variables](#environment-variables)\r - [Suggestions for Improvement](#suggestions-for-improvement)\r - [API Endpoints](#api-endpoints)\r - [Frontend Overview](#frontend-overview)\r - [Testing](#testing)",
+  "main": "index.js",
+    "scripts": {
+      "dev": "concurrently -n \"🖥️Client,🛠️Server\" -c \"bgMagenta.bold,bgCyan.bold\" \"cd client && npm run dev\" \"cd server && npm run dev\""
+      },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
+}

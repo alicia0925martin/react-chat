@@ -9,6 +9,7 @@ const dbConnect = require("./config/database");
 const fileUpload = require("express-fileupload");
 const cloudinaryConnect = require("./config/cloudinary");
 
+const { app, io, server } = require("./config/socket");
 
 require("dotenv").config();
 
@@ -17,7 +18,7 @@ require("dotenv").config();
 const PORT = process.env.PORT || 4000;
 
 // initializing the app 
-const app = express();
+// const app = express(); //no need we have created this is socket.js
 
 
 // file upload middleware: 
@@ -44,7 +45,7 @@ app.use(cookieParser());
 // importing routes: 
 const authRoutes = require("./routes/auth.route");
 const userRoutes = require("./routes/user.route");
-const messageRoutes = require("./routes/message.route")
+const messageRoutes = require("./routes/message.route");
 
 
 
@@ -67,7 +68,8 @@ app.get("/" , (req , res)=>{
 dbConnect();
 cloudinaryConnect();
 
-app.listen(PORT , ()=>{
+// replaced app with server:
+server.listen(PORT , ()=>{
     console.log(`server is running on ${PORT} port.`)
 })
 

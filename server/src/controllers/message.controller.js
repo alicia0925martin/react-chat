@@ -1,3 +1,4 @@
+const { getRecieverSocketId, io } = require("../config/socket");
 const { getFileType } = require("../helpers");
 const Message = require("../models/Message");
 const User = require("../models/User");
@@ -147,6 +148,13 @@ exports.sendMessage = async(req, res)=>{
 
         // todo: real time functionality will be used here: 
 
+        //fetch the reciever socket id
+        const recieverSocketId = getRecieverSocketId(recieverId)
+
+        if(recieverSocketId){
+            // broadcasting but only to reciever:
+            io.to(recieverSocketId).emit("newMessage" , messagePayload);
+        }
 
         return res.status(200).json({
             success: true, 

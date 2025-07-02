@@ -1,5 +1,5 @@
 const express = require("express");
-const { signup, login, logout, checkUsername } = require("../controllers/auth.controller");
+const { signup, login, logout, checkUsername, sendOtp, verifyEmailOtp } = require("../controllers/auth.controller");
 const { auth } = require("../middlewares/auth");
 
 const router =express.Router();
@@ -16,6 +16,10 @@ router.get("/checkAuth" , auth , (req, res)=>{
 })
 
 router.post("/checkUsername" , checkUsername);
+
+router.post("/send-otp" , sendOtp);
+
+router.post("/verify-email" , verifyEmailOtp);
 
 
 

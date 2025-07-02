@@ -2,6 +2,10 @@ const { validateSignUpData } = require("../helpers");
 const bcrypt = require('bcrypt');
 const User = require("../models/User");
 
+const otpGenerator = require('otp-generator');
+const OTP = require("../models/Otp");
+
+
 
 exports.signup = async(req ,res)=>{
     try{
@@ -20,8 +24,6 @@ exports.signup = async(req ,res)=>{
                 success: false,message: "User already exists. Please login."
             })
         }
-
-        
 
         // now hash the password: 
         const hashedPassword = await bcrypt.hash(password , 10);
@@ -200,3 +202,110 @@ exports.checkUsername = async(req , res)=>{
         })
     }
 }
+
+exports.sendOtp = async(req ,res)=>{
+    try{
+        // fetch the email from req.body: 
+        const {email} = req.body; 
+        
+        // if email nto found: 
+        if(!email){
+            return res.status(404).json({
+                success: false, 
+                message: "email not found!"
+            })
+        }
+
+        // check if the user exists with this email: 
+        const existingUser = await User.findOne({email: email})
+
+        if(existingUser){
+            return res.status(400).json({
+                success: false, 
+                message: "user already exists. Please login"
+            })
+        }
+
+        let otp = otpGenerator.generate(6 , {specialChars: false, 
+            lowerCaseAlphabets: false, 
+            upperCaseAlphabets: false
+        })
+
+        let existingOtp  = await OTP.findOne({otp})
+        while(existingOtp){
+            otp = otpGenerator.generate(6 ,{specialChars: false, 
+            lowerCaseAlphabets: false, 
+            upperCaseAlphabets: false
+        } )
+
+            existingOtp = await OTP.findOne({otp})
+        }
+
+        const otpPayload = await OTP.create({
+            otp , email
+        })
+
+        return res.status(200).json({
+            success: true, 
+            data: otpPayload,
+            message: "otp sent successfully"
+        })
+    }
+    catch(err){
+        console.log(err);
+        console.error(err); 
+        return res.status(500).json({
+            success: false, 
+            message: "Internal Server Error", 
+            error: err.message
+        })
+    }
+}
+
+exports.verifyEmailOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    if (!otp || !email) {
+      return res.status(404).json({
+        success: false,
+        message: "otp or email not found!",
+      });
+    }
+
+    if (otp.toString().length !== 6) {
+      throw new Error("Otp should be of 6 digits");
+    }
+
+    const recentOtp = await OTP.findOne({ email }).sort({ createdAt: -1 });
+
+    if (!recentOtp || !recentOtp.otp) {
+      return res.status(404).json({
+        success: false,
+        message: "OTP not found or expired. Please request a new OTP.",
+      });
+    }
+
+    const storedOtp = recentOtp.otp.toString(); // ✅ fixed here
+    const enteredOtp = otp.toString();
+
+    if (storedOtp !== enteredOtp) {
+      return res.status(401).json({
+        success: false,
+        message: "OTPs do not match! Please try again!",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "otp verified successfully!",
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: err.message,
+    });
+  }
+};

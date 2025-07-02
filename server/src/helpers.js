@@ -2,12 +2,13 @@ const validator = require('validator')
 
 
 const validateSignUpData = (req)=>{
-    const {username , email , password , confirmPassword} = req.body; 
+    const {username , email , password , confirmPassword } = req.body; 
 
-    if(!username || !email || !password || !confirmPassword)
+    if(!username || !email || !password || !confirmPassword )
     {
         throw new Error("All fields are required!")
     }
+    
 
     if(password !== confirmPassword){
         throw new Error("Passwords do not match!")

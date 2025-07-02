@@ -1,26 +1,52 @@
 import React, { useEffect, useRef } from 'react'
-import { formatMessageTime, getMessages } from '../services/operations'
+import { formatMessageTime, getMessages, subscribeToMessages, unsubscribeFromMessages } from '../services/operations'
 import { useDispatch, useSelector } from 'react-redux'
 import MessageSkeleton from './skeletons/MessageSkeleton';
 import ChatHeader from './ChatHeader';
 import MessageInput from './MessageInput';
 import { FileIcon, FileText, Link } from 'lucide-react';
+import { addMessage } from '../Redux/Reducers/slices/chatSlice';
 
 const ChatContainer = () => {
     const dispatch = useDispatch();
     const {messages , selectedUser , isMessagesLoading } = useSelector((store)=>store.chats);
 
-    const {user} = useSelector((store)=>store.auth);
-
+    const {user , socket} = useSelector((store)=>store.auth);
+ 
     const messageEndRef = useRef();
 
     useEffect(()=>{
         getMessages(dispatch , selectedUser._id);
+
+        subscribeToMessages();
+        
+        // unsubscribing: 
+        if(socket)
+        {
+          return()=>{
+               socket.off("newMessage")
+        };
+        }
     },[selectedUser._id])
 
+
+    const subscribeToMessages =()=>{
+      // subscribing messages
+        const handleNewMessage = (newMessage) => {
+        const isRelevant = newMessage.senderId === selectedUser._id || newMessage.recieverId === selectedUser._id;
+
+        if (!isRelevant) return; // ✅ Important fix: ignore irrelevant messages
+
+        dispatch(addMessage(newMessage));
+        };  
+
+        socket.on("newMessage", handleNewMessage);
+        socket._messageHandler = handleNewMessage;
+    }
+
      useEffect(() => {
-  messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
-}, [messages]);
+        messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, [messages]);
 
     if(isMessagesLoading){
         return  <div className="flex-1 flex flex-col overflow-auto">
@@ -39,6 +65,7 @@ const ChatContainer = () => {
             key={message._id}
             className={`chat ${message.senderId === user._id ? "chat-end" : "chat-start"}`}
             ref={messageEndRef}
+          
           >
             <div className=" chat-image avatar">
               <div className="size-10 rounded-full border">
@@ -87,7 +114,7 @@ const ChatContainer = () => {
             </div>
           </div>
         ))}
-         {/* 👇 Add this dummy div at the end */}
+        {/* to auto scroll */}
         <div ref={messageEndRef} />
       </div>
 

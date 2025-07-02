@@ -9,35 +9,35 @@ import ProfilePage from './components/pages/ProfilePage';
 import Navbar from './components/Navbar';
 import useAuth from './hooks/useAuth';
 import { Loader } from 'lucide-react';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { THEMES } from './utils/constants';
+import OtpPage from './components/OtpPage';
 
 function App() {
-  const { user, isLoading } = useAuth();
+  const { user, isLoading } = useAuth(); // Removed signupData check here
   const location = useLocation();
 
-  const {theme} = useSelector((store)=>store.config);
+  const { theme } = useSelector((store) => store.config);
 
-  if (isLoading) return <div className='flex items-center justify-center h-screen'>
-    <Loader className='size-10 animate-spin'/>
-  </div>;
 
+  
   return (
-    <div className="" data-theme={theme}>
+    <div data-theme={theme}>
       <Navbar />
       <Routes>
-        {/* Public Routes */}
+        {/* ✅ Pass signupData via route state instead of Redux */}
+        <Route path="/verify-otp" element={!user ? <OtpPage /> : <Navigate to="/" />} />
         <Route path="/signup" element={!user ? <SignupPage /> : <Navigate to="/" />} />
         <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" />} />
 
         {/* Protected Routes */}
-        <Route path="/" element={user ? <HomePage /> : <Navigate to="/login"/>} />
-        <Route path="/settings" element={ <SettingsPage /> } />
+        <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
+        <Route path="/settings" element={<SettingsPage />} />
         <Route path="/profile" element={user ? <ProfilePage /> : <Navigate to="/login" />} />
       </Routes>
-      
-      <Toaster/>
+
+      <Toaster />
     </div>
   );
 }

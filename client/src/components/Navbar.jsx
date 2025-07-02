@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const {user} = useSelector((store)=>store.auth);
+  const {user , socket} = useSelector((store)=>store.auth);
   
   return (
      <header
@@ -43,7 +43,7 @@ const Navbar = () => {
                   <span className="hidden sm:inline">Profile</span>
                 </Link>
 
-                <button className="flex gap-2 items-center cursor-pointer" onClick={()=>logout(dispatch)}>
+                <button className="flex gap-2 items-center cursor-pointer" onClick={()=>{logout(dispatch , socket)}}>
                   <LogOut className="size-5" />
                   <span className="hidden sm:inline">Logout</span>
                 </button>

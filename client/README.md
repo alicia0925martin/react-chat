@@ -256,8 +256,84 @@ This document outlines the structure, components, and logic of the chat applicat
     - by making the api call to backend
 
 - # Settings Page: (Themes Selection and preview):
-
     
+    ✨ Implemented Theme Settings, Sidebar, Chat UI, Login, Navbar, and Profile Features
+
+- Added Settings Page with theme selection and preview (Daisy UI themes)
+- Configured Redux `configSlice` and localStorage to persist selected theme
+- Created Sidebar to display users and support user selection (Redux integration)
+- Implemented ChatContainer with scroll logic, message rendering, and time formatting
+- Built MessageInput with file upload, validation, and real-time messaging
+- Developed Login Page supporting email/username with toast-based validation
+- Added Navbar with Logout feature (Redux + API call + toast feedback)
+- Built Profile Page for viewing and updating user info and profile picture
+
+🔧 Added constants for themes, routes, and keys; structured Redux slices and services
+
+
+
+✨ Initial Real-Time Chat App Frontend Setup with Theme, Auth, Chat UI
+
+# Project Initialization (Vite + React 19 + Tailwind + Daisy UI)
+- Initialized React app using Vite template
+- Installed Tailwind CSS, DaisyUI, React Router, Redux Toolkit, React Hot Toast, Lucide Icons
+
+# Phase 1: Project Structure & Routing
+- Set up routing for all pages (Login, Signup, Home, Profile, Settings)
+- Created base components and dummy pages
+
+# Phase 2: Authentication Setup
+- Created Redux store and `authSlice` with user/loading state
+- Built `useCheckAuth` custom hook for auto-login check (via API)
+- Protected routes based on auth state
+- Implemented logout with Redux and API integration
+
+# Phase 3: Login and Signup Functionality
+- Built Login/Signup forms with real-time validation and toast feedback
+- Created `useCheckUsername` hook with debounced username availability check
+- Centralized auth logic in `operations.js`
+- Allowed login via email or username
+
+# Profile Page
+- Built profile update UI (displayName, contact number, image upload)
+- Connected to backend for updating user data
+
+# Settings Page
+- Implemented theme selection with Daisy UI dropdown
+- Theme persists via Redux + localStorage
+- Defined `themes` and `THEME_KEY` in `constants.js`
+
+# Sidebar Component
+- Displays all users (fetched via `getAllUsers`)
+- Supports user selection via Redux `chatSlice`
+- Integrated navigation and logout
+
+# ChatContainer + MessageInput
+- Displays messages between users (with scroll preservation + timestamp formatting)
+- Built real-time message input with text + file support
+- Validates file types and shows previews
+- Added loading skeleton (`MessageSkeleton`) for chat area
+
+# Utilities & Config
+- Centralized constants: routes, themes, keys
+- Centralized async functions in `operations.js` (getMessages, sendMessage, etc.)
+- Set up `apiConnector.js` with axios instance
+
+# Socket.io Prep
+- Installed `socket.io-client` for upcoming real-time features
+
+📁 Folder Structure Updated:
+- `/components`: Auth UI, Sidebar, Chat, Settings
+- `/pages`: Login, Signup, Home, Profile, Settings
+- `/Redux/slices`: `authSlice`, `chatSlice`, `configSlice`
+- `/services`: API handling and operations
+- `/utils`: Constants and reusable functions
+
+🎉 Overall: Functional chat UI with auth, theme support, user list, and messaging system fully wired up!
+
+
+# Socket.io Implementation: 
+- npm i socket.io/client
 
 
 ## 📂 Folder Structure (Auth-related)

@@ -1,4 +1,4 @@
-import { Camera, IdCard, Mail, PhoneCall, User } from 'lucide-react';
+import { Camera, IdCard, Loader2, Mail, PhoneCall, User } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateProfileData } from '../../services/operations';
@@ -17,14 +17,12 @@ const ProfilePage = () => {
         profilePic : null,
     });
 
-    // console.log(selectedImg);
 
     const [count , setCount] = useState(formData.displayName.length);
 
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
 
-        console.log(file);
         if (!file) return;
         setSelectedImg(URL.createObjectURL(file));
         
