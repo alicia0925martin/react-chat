@@ -6,7 +6,7 @@
     "scripts": {
       "build": "npm install --prefix server && npm install --prefix client && npm run build --prefix client",
       "dev": "concurrently -n \"🖥️Client,🛠️Server\" -c \"bgMagenta.bold,bgCyan.bold\" \"cd client && npm run dev\" \"cd server && npm run dev\"", 
-      "start": "npm run start --prefix backend"
+      "start": "npm run start --prefix server"
       },
   "keywords": [],
   "author": "",
