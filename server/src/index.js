@@ -59,18 +59,16 @@ app.use("/api/v1/message" , messageRoutes);
 
 
 
-app.get("/" , (req , res)=>{
-    res.send(`<h2>This is hello world</h2>`)
-})
 
 
 if(process.env.NODE_ENV === "production"){
-    app.use(express.static(path.join(__dirname , "../client/dist")));
+   // Correct path to dist for Render (assuming 'client' and 'server' are siblings)
+    app.use(express.static(path.join(__dirname, "..", "client", "dist")));
 
-
-    app.get("/*name", (req, res) => {
-    res.sendFile(path.join(__dirname , "../client" , "dist" , "index.html"));
+    app.get("/*any", (req, res) => {
+    res.sendFile(path.join(__dirname, "..", "client", "dist", "index.html"));
     });
+
 }
 
 
