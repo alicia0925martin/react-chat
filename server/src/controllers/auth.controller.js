@@ -45,10 +45,10 @@ exports.signup = async(req ,res)=>{
         userPayload.password = undefined; 
 
         const options = {
-                maxAge : 24 * 60 * 60 * 1000,
-                httpOnly: true, 
-                sameSite: "none",
-                secure: process.env.NODE_ENV === "production"
+                httpOnly: true,
+                sameSite: "None",     // Must be 'None' to allow cross-site cookies
+                secure: true,         // Required for SameSite=None to work
+                maxAge: 24 * 60 * 60 * 1000
         }
         return res.cookie("token" , token , options).json({
             success: true, 
@@ -109,11 +109,10 @@ exports.login = async(req , res)=>{
             existingUser.password = undefined; 
 
             const options = {
-                    expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-                    httpOnly: true, 
-                    sameSite: "none",
-                    secure: process.env.NODE_ENV === "production"
-                    
+                    httpOnly: true,
+                    sameSite: "None",     // Must be 'None' to allow cross-site cookies
+                    secure: true,         // Required for SameSite=None to work
+                    maxAge: 24 * 60 * 60 * 1000
             }
             return res.cookie("token" , token , options).status(200).json({
                 success: true, 

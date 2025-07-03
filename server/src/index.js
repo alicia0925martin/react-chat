@@ -27,8 +27,8 @@ const PORT = process.env.PORT || 4000;
 // file upload middleware: 
 
 app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
+  origin: ["http://localhost:5173", "https://chatty-frontend-7pr0.onrender.com"],
+  credentials: true,
 }));
 
 app.use(cookieParser());
