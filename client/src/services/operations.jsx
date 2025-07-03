@@ -371,7 +371,7 @@ export const sendOtp = async (dispatch, formData) => {
 
 
 
-export const verifyEmail = async (dispatch, signupData, otp, socket) => {
+export const verifyEmail = async (dispatch, signupData, otp, socket , setIsEmailVerified) => {
   try {
     dispatch(setIsEmailVerifying(true));
 
@@ -379,6 +379,8 @@ export const verifyEmail = async (dispatch, signupData, otp, socket) => {
       email: signupData.email,
       otp,
     });
+
+    setIsEmailVerified(true);
 
     toast.success("Email verified");
     
@@ -392,8 +394,10 @@ export const verifyEmail = async (dispatch, signupData, otp, socket) => {
     // Some backends invalidate the OTP immediately after a failed attempt for security.
     // Ideally, this behavior should be changed to allow 2-3 retries.
     toast.error("Verification failed");
+    setIsEmailVerified(false);
   } finally {
     dispatch(setIsEmailVerifying(false));
+    setIsEmailVerified(false);
     dispatch(setLoading(false));
   }
 };
