@@ -25,25 +25,15 @@ const PORT = process.env.PORT || 4000;
 
 
 // file upload middleware: 
-app.use(fileUpload({
-    useTempFiles: true,
-    tempFileDir: "/tmp/"
+
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
 }));
 
-// configuring cors: 
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true,
-}))
-
-
-// express.json() middleware: 
-app.use(express.json());
-
-// middlewares: 
 app.use(cookieParser());
-
-
+app.use(express.json());
+app.use(fileUpload({ useTempFiles: true, tempFileDir: "/tmp/" }));
 
 // importing routes: 
 const authRoutes = require("./routes/auth.route");
