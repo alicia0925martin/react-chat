@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const dbConnect = require("./config/database");
 const fileUpload = require("express-fileupload");
 const cloudinaryConnect = require("./config/cloudinary");
-const path = require("path")
+
 
 
 
@@ -61,15 +61,7 @@ app.use("/api/v1/message" , messageRoutes);
 
 
 
-if(process.env.NODE_ENV === "production"){
-   // Correct path to dist for Render (assuming 'client' and 'server' are siblings)
-    app.use(express.static(path.join(__dirname, "..", "client", "dist")));
 
-    app.get("/*any", (req, res) => {
-    res.sendFile(path.join(__dirname, "..", "client", "dist", "index.html"));
-    });
-
-}
 
 
 dbConnect();
