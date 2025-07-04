@@ -290,12 +290,11 @@
 
         if (socket && socket.connected) return;
         
-        const socketIo = io(BACKEND_URL , {
-            withCredentials: true,
-            query: {
-                userId: user._id
-            }
-        })
+        const socketIo = io(BACKEND_URL, {
+        withCredentials: true,
+        transports: ['polling', 'websocket'], // Add 'polling'
+        query: { userId: user._id }
+        });
         dispatch(setSocket(socketIo));
         socketIo.connect();
 

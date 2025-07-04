@@ -39,4 +39,4 @@ export const PREVIEW_MESSAGES = [
 ]
 
 
-export const BACKEND_URL = "https://chatty-backend-24kt.onrender.com/api/v1"
+export const BACKEND_URL = "https://chatty-backend-24kt.onrender.com"
