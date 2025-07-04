@@ -1,32 +1,7 @@
 import React, { useState } from 'react'
 import OtpInput from "react-otp-input"
 
-const OtpPage = ({ otp, setOtp }) => {
-  return (
-    <div className='flex flex-col items-center'>
-      <OtpInput
-        value={otp}
-        onChange={setOtp}
-        numInputs={6}
-        renderSeparator={<span className="mx-1">-</span>}
-        inputStyle={{
-          width: '3rem',
-          height: '3rem',
-          fontSize: '1.25rem',
-          borderRadius: '0.5rem',
-          border: '1px solid #ccc',
-          textAlign: 'center',
-        }}
-        renderInput={(props) => (
-          <input
-          {...props}
-            className='w-10 h-10 text-center border border-gray-300 rounded-lg'
-          />
-        )}
-      />
-    </div>
-  );
-}
+
 
 const OtpModal = ({ otp, setOtp, handleVerifyOtp }) => {
   return (

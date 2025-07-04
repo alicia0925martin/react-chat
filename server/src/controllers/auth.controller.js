@@ -47,7 +47,7 @@ exports.signup = async(req ,res)=>{
         const options = {
                 httpOnly: true,
                 sameSite: "None",     // Must be 'None' to allow cross-site cookies
-                secure: true,         // Required for SameSite=None to work
+                secure: process.env.NODE_ENV === "production",         // Required for SameSite=None to work
                 maxAge: 24 * 60 * 60 * 1000
         }
         return res.cookie("token" , token , options).json({
@@ -111,7 +111,7 @@ exports.login = async(req , res)=>{
             const options = {
                     httpOnly: true,
                     sameSite: "None",     // Must be 'None' to allow cross-site cookies
-                    secure: true,         // Required for SameSite=None to work
+                    secure: process.env.NODE_ENV === "production",         // Required for SameSite=None to work
                     maxAge: 24 * 60 * 60 * 1000
             }
             return res.cookie("token" , token , options).status(200).json({

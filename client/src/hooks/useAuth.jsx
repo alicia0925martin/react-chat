@@ -7,13 +7,11 @@ import { connectSocket } from "../services/operations";
 const useAuth = () => {
   const dispatch = useDispatch();
   const { user, isLoading , socket , onlineUsers} = useSelector((store) => store.auth);
-  console.log(onlineUsers);
 
   const checkAuth = async () => {
     dispatch(setLoading(true));
     try {
       const res = await axiosInstance.get("/auth/checkAuth");
-      console.log("login")
 
       // <-- Update state with user data
       dispatch(setUser(res.data)); 

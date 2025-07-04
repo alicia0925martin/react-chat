@@ -9,6 +9,7 @@ const dbConnect = require("./config/database");
 const fileUpload = require("express-fileupload");
 const cloudinaryConnect = require("./config/cloudinary");
 
+const path = require('path')
 
 
 
@@ -29,11 +30,14 @@ const PORT = process.env.PORT || 4000;
 app.use(cors({
   origin: ["http://localhost:5173", "https://chatty-frontend-7pr0.onrender.com"],
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"]
 }));
 
 app.use(cookieParser());
 app.use(express.json());
 app.use(fileUpload({ useTempFiles: true, tempFileDir: "/tmp/" }));
+
+
 
 // importing routes: 
 const authRoutes = require("./routes/auth.route");
@@ -50,6 +54,11 @@ app.use("/api/v1/message" , messageRoutes);
 
 
 
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get('/*any', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 
 

@@ -291,7 +291,6 @@
         if (socket && socket.connected) return;
         
         const socketIo = io(BACKEND_URL , {
-            transports: ["websocket"],
             withCredentials: true,
             query: {
                 userId: user._id
