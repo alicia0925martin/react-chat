@@ -15,19 +15,25 @@ const ChatContainer = () => {
  
     const messageEndRef = useRef();
 
-    useEffect(()=>{
-        getMessages(dispatch , selectedUser._id);
+    useEffect(() => {
+      getMessages(dispatch, selectedUser._id);
 
-        subscribeToMessages();
-        
-        // unsubscribing: 
-        if(socket)
-        {
-          return()=>{
-               socket.off("newMessage")
-        };
+      const handleNewMessage = (newMessage) => {
+        const isRelevant = newMessage.senderId === selectedUser._id || newMessage.recieverId === selectedUser._id;
+        if (!isRelevant) return;
+        dispatch(addMessage(newMessage));
+      };
+
+      if (socket) {
+        socket.on("newMessage", handleNewMessage);
+      }
+
+      return () => {
+        if (socket) {
+          socket.off("newMessage", handleNewMessage); // ✅ proper cleanup
         }
-    },[selectedUser._id])
+      };
+    }, [selectedUser._id, socket]);
 
 
     const subscribeToMessages =()=>{
