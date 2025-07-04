@@ -68,7 +68,7 @@ const Sidebar = () => {
                 className="size-12 object-cover rounded-full" loading='lazy'
               />
               <div>
-                <h3 className="font-medium">{selectedUser.displayName || selectedUser.username}</h3>
+                <h3 className="font-medium">{user?.displayName || user?.username}</h3>
                 {onlineUsers.includes(user._id) && (
                 <span
                   className="absolute bottom-0 right-0 size-3 bg-green-500 
