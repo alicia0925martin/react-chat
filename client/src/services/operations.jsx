@@ -362,7 +362,7 @@ export const sendOtp = async (dispatch, formData) => {
     return { success: true };
   } catch (err) {
     console.error(err);
-    toast.error("Error sending OTP");
+    toast.error(err?.response?.data?.message ||"Error sending OTP");
     return { success: false };
   } finally {
     dispatch(setLoading(false));
