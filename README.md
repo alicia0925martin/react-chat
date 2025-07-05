@@ -1,7 +1,7 @@
 
 # 💬 Chatty – Real-Time Chat Application
 
-**Live Link**: [https://chatty-app-by-aryan.onrender.com](https://chatty-app-by-aryan.onrender.com)
+**Live Link**: [https://chatty-frontend-7pr0.onrender.com](https://chatty-frontend-7pr0.onrender.com)
 
 ## 🧠 Overview
 
