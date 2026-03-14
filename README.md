@@ -19,7 +19,7 @@ It is a fully functional modern chat platform designed for fast, responsive, and
 - Logout functionality
 - OTP email verification during signup
 
-### 👤 User Profile
+### 👤  User Profile
 - View and edit profile
 - Upload profile picture
 - Update contact number and display name
